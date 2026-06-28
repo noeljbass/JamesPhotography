@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>James Photography | Modern Portfolio</title>
+  <style>
+    :root {
+      color-scheme: dark;
+      --bg: #07090f;
+      --panel: rgba(255, 255, 255, 0.08);
+      --panel-strong: rgba(255, 255, 255, 0.14);
+      --text: #f8fafc;
+      --muted: #a7b0c0;
+      --gold: #f6c76a;
+      --cyan: #76e4f7;
+      --radius: 26px;
+      --shadow: 0 28px 80px rgba(0, 0, 0, 0.42);
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background:
+        radial-gradient(circle at top left, rgba(118, 228, 247, 0.18), transparent 34rem),
+        radial-gradient(circle at 80% 10%, rgba(246, 199, 106, 0.16), transparent 30rem),
+        linear-gradient(135deg, #07090f 0%, #101524 52%, #07090f 100%);
+      color: var(--text);
+    }
+
+    a { color: inherit; text-decoration: none; }
+
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      padding: 1rem clamp(1rem, 4vw, 4rem);
+      backdrop-filter: blur(18px);
+      background: rgba(7, 9, 15, 0.68);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 0.85rem;
+      font-weight: 800;
+      letter-spacing: -0.04em;
+      font-size: 1.15rem;
+    }
+
+    .mark {
+      display: grid;
+      place-items: center;
+      width: 2.65rem;
+      aspect-ratio: 1;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--gold), var(--cyan));
+      color: #071018;
+      box-shadow: 0 12px 40px rgba(118, 228, 247, 0.24);
+    }
+
+    nav { display: flex; gap: 1rem; color: var(--muted); font-weight: 650; }
+    nav a:hover { color: var(--text); }
+
+    main { padding: clamp(1rem, 4vw, 4rem); }
+
+    .hero {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(18rem, 0.78fr);
+      gap: clamp(1.5rem, 4vw, 4rem);
+      align-items: center;
+      min-height: 74vh;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      gap: 0.5rem;
+      align-items: center;
+      padding: 0.45rem 0.75rem;
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      border-radius: 999px;
+      color: var(--muted);
+      background: rgba(255, 255, 255, 0.05);
+    }
+
+    h1 {
+      max-width: 12ch;
+      margin: 1.3rem 0 1rem;
+      font-size: clamp(3.3rem, 9vw, 8.5rem);
+      line-height: 0.88;
+      letter-spacing: -0.085em;
+    }
+
+    .lead {
+      max-width: 42rem;
+      color: var(--muted);
+      font-size: clamp(1.05rem, 2vw, 1.28rem);
+      line-height: 1.75;
+    }
+
+    .hero-actions { display: flex; flex-wrap: wrap; gap: 0.9rem; margin-top: 2rem; }
+    .button {
+      border: 0;
+      border-radius: 999px;
+      padding: 0.95rem 1.25rem;
+      font-weight: 800;
+      background: var(--text);
+      color: #08101a;
+      cursor: pointer;
+    }
+    .button.secondary { background: var(--panel); color: var(--text); border: 1px solid rgba(255,255,255,.12); }
+
+    .feature-card {
+      position: relative;
+      min-height: 36rem;
+      overflow: hidden;
+      border-radius: calc(var(--radius) * 1.35);
+      background: linear-gradient(160deg, rgba(255,255,255,.16), rgba(255,255,255,.03));
+      border: 1px solid rgba(255,255,255,.14);
+      box-shadow: var(--shadow);
+    }
+
+    .feature-card::before {
+      content: "";
+      position: absolute;
+      inset: 1rem;
+      border-radius: 2rem;
+      background:
+        linear-gradient(to top, rgba(0,0,0,.58), transparent 54%),
+        url("https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1200&q=80") center/cover;
+      filter: saturate(1.08) contrast(1.05);
+    }
+
+    .feature-label {
+      position: absolute;
+      left: 2rem;
+      right: 2rem;
+      bottom: 2rem;
+      display: flex;
+      justify-content: space-between;
+      gap: 1rem;
+      align-items: end;
+    }
+
+    .section-title { margin: 4rem 0 1.2rem; font-size: clamp(2rem, 5vw, 4.25rem); letter-spacing: -0.06em; }
+
+    .gallery {
+      display: grid;
+      grid-template-columns: repeat(12, 1fr);
+      gap: 1rem;
+    }
+
+    .tile {
+      min-height: 22rem;
+      grid-column: span 4;
+      border-radius: var(--radius);
+      overflow: hidden;
+      background: var(--panel);
+      border: 1px solid rgba(255,255,255,.1);
+      box-shadow: var(--shadow);
+    }
+    .tile.wide { grid-column: span 8; }
+    .tile img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform .45s ease; }
+    .tile:hover img { transform: scale(1.045); }
+
+    .studio {
+      display: grid;
+      grid-template-columns: 0.85fr 1.15fr;
+      gap: 1rem;
+      margin-top: 1rem;
+      padding: 1rem;
+      border-radius: calc(var(--radius) + 8px);
+      background: var(--panel);
+      border: 1px solid rgba(255,255,255,.12);
+      box-shadow: var(--shadow);
+    }
+
+    .controls {
+      padding: clamp(1rem, 3vw, 2rem);
+      border-radius: var(--radius);
+      background: rgba(0,0,0,.22);
+    }
+
+    label { display: block; margin-top: 1.1rem; color: var(--muted); font-weight: 750; }
+    input[type="range"], input[type="file"] { width: 100%; margin-top: .6rem; accent-color: var(--gold); }
+
+    .preview-wrap {
+      display: grid;
+      place-items: center;
+      min-height: 34rem;
+      border-radius: var(--radius);
+      background:
+        linear-gradient(45deg, rgba(255,255,255,.05) 25%, transparent 25%),
+        linear-gradient(-45deg, rgba(255,255,255,.05) 25%, transparent 25%),
+        linear-gradient(45deg, transparent 75%, rgba(255,255,255,.05) 75%),
+        linear-gradient(-45deg, transparent 75%, rgba(255,255,255,.05) 75%);
+      background-size: 28px 28px;
+      background-position: 0 0, 0 14px, 14px -14px, -14px 0;
+      overflow: auto;
+    }
+
+    #previewImage {
+      width: 62%;
+      max-width: none;
+      border-radius: 18px;
+      object-fit: cover;
+      box-shadow: 0 24px 70px rgba(0,0,0,.5);
+      transform: rotate(0deg);
+    }
+
+    .stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: .7rem; margin-top: 1rem; }
+    .stat { padding: .8rem; border-radius: 16px; background: var(--panel-strong); color: var(--muted); }
+    .stat strong { display: block; color: var(--text); font-size: 1.1rem; }
+
+    footer { padding: 3rem clamp(1rem, 4vw, 4rem); color: var(--muted); text-align: center; }
+
+    @media (max-width: 850px) {
+      nav { display: none; }
+      .hero, .studio { grid-template-columns: 1fr; }
+      .feature-card { min-height: 28rem; }
+      .tile, .tile.wide { grid-column: span 12; }
+      .stats { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <a class="brand" href="#top" aria-label="James Photography home"><span class="mark">◐</span> James Photography</a>
+    <nav aria-label="Primary navigation">
+      <a href="#collections">Collections</a>
+      <a href="#sizer">Image Sizer</a>
+      <a href="mailto:hello@example.com">Book</a>
+    </nav>
+  </header>
+
+  <main id="top">
+    <section class="hero" aria-labelledby="hero-title">
+      <div>
+        <span class="eyebrow">Modern portfolio redesign · beach, landscapes & low light</span>
+        <h1 id="hero-title">Light in motion.</h1>
+        <p class="lead">A sleek one-page photography experience inspired by James' original WordPress portfolio, rebuilt with cinematic spacing, glass panels, responsive galleries, and a built-in image sizing studio for preparing portfolio shots.</p>
+        <div class="hero-actions">
+          <a class="button" href="#collections">Explore work</a>
+          <a class="button secondary" href="#sizer">Resize a photo</a>
+        </div>
+      </div>
+      <aside class="feature-card" aria-label="Featured beach photograph">
+        <div class="feature-label">
+          <div><strong>Panama City Beach</strong><br><span style="color:var(--muted)">Golden-hour shoreline study</span></div>
+          <span class="eyebrow">Featured</span>
+        </div>
+      </aside>
+    </section>
+
+    <section id="collections" aria-labelledby="collections-title">
+      <h2 class="section-title" id="collections-title">Selected collections</h2>
+      <div class="gallery">
+        <figure class="tile wide"><img alt="Soft beach waves at sunset" src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1400&q=80"></figure>
+        <figure class="tile"><img alt="Mountain landscape under moody light" src="https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=900&q=80"></figure>
+        <figure class="tile"><img alt="Night city lights with dramatic shadows" src="https://images.unsplash.com/photo-1519608487953-e999c86e7455?auto=format&fit=crop&w=900&q=80"></figure>
+        <figure class="tile wide"><img alt="Road through a dramatic landscape" src="https://images.unsplash.com/photo-1470770841072-f978cf4d019e?auto=format&fit=crop&w=1400&q=80"></figure>
+      </div>
+    </section>
+
+    <section id="sizer" aria-labelledby="sizer-title">
+      <h2 class="section-title" id="sizer-title">Picture sizing studio</h2>
+      <div class="studio">
+        <div class="controls">
+          <p class="lead">Upload a photo, tune its display size, crop height, corner radius, and rotation, then use the dimensions as a guide for your portfolio layout.</p>
+          <label for="fileInput">Upload image</label>
+          <input id="fileInput" type="file" accept="image/*">
+
+          <label for="widthRange">Display width: <span id="widthValue">62%</span></label>
+          <input id="widthRange" type="range" min="20" max="100" value="62">
+
+          <label for="heightRange">Crop height: <span id="heightValue">420px</span></label>
+          <input id="heightRange" type="range" min="180" max="760" value="420">
+
+          <label for="radiusRange">Rounded corners: <span id="radiusValue">18px</span></label>
+          <input id="radiusRange" type="range" min="0" max="80" value="18">
+
+          <label for="rotateRange">Rotation: <span id="rotateValue">0°</span></label>
+          <input id="rotateRange" type="range" min="-12" max="12" value="0">
+
+          <div class="stats" aria-live="polite">
+            <div class="stat"><strong id="statWidth">62%</strong>Width</div>
+            <div class="stat"><strong id="statHeight">420px</strong>Height</div>
+            <div class="stat"><strong id="statRadius">18px</strong>Radius</div>
+          </div>
+        </div>
+        <div class="preview-wrap">
+          <img id="previewImage" alt="Resizable portfolio preview" src="https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=1100&q=80">
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>© 2026 James Photography. Designed as a fast, modern static portfolio page.</footer>
+
+  <script>
+    const previewImage = document.querySelector('#previewImage');
+    const fileInput = document.querySelector('#fileInput');
+    const widthRange = document.querySelector('#widthRange');
+    const heightRange = document.querySelector('#heightRange');
+    const radiusRange = document.querySelector('#radiusRange');
+    const rotateRange = document.querySelector('#rotateRange');
+
+    const updatePreview = () => {
+      previewImage.style.width = `${widthRange.value}%`;
+      previewImage.style.height = `${heightRange.value}px`;
+      previewImage.style.borderRadius = `${radiusRange.value}px`;
+      previewImage.style.transform = `rotate(${rotateRange.value}deg)`;
+
+      document.querySelector('#widthValue').textContent = `${widthRange.value}%`;
+      document.querySelector('#heightValue').textContent = `${heightRange.value}px`;
+      document.querySelector('#radiusValue').textContent = `${radiusRange.value}px`;
+      document.querySelector('#rotateValue').textContent = `${rotateRange.value}°`;
+      document.querySelector('#statWidth').textContent = `${widthRange.value}%`;
+      document.querySelector('#statHeight').textContent = `${heightRange.value}px`;
+      document.querySelector('#statRadius').textContent = `${radiusRange.value}px`;
+    };
+
+    [widthRange, heightRange, radiusRange, rotateRange].forEach((control) => {
+      control.addEventListener('input', updatePreview);
+    });
+
+    fileInput.addEventListener('change', (event) => {
+      const [file] = event.target.files;
+      if (!file) return;
+      previewImage.src = URL.createObjectURL(file);
+      previewImage.onload = () => URL.revokeObjectURL(previewImage.src);
+    });
+
+    updatePreview();
+  </script>
+</body>
+</html>
